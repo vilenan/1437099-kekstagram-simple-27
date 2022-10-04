@@ -10,7 +10,7 @@ const getRandomNumber = function (a, b){
 };
 getRandomNumber(34.7, 8.9);
 //Функция, проверяющая максимальную длину строки. Результат: true, если строка проходит по длине, и false — если не проходит
-const checkStringLength = function (string, maxlength){
-  return string.length <= maxlength;
+const checkStringLength = function (str, maxLength){
+  return str.length <= maxLength;
 };
 checkStringLength('hello', 9);
