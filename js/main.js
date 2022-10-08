@@ -23,29 +23,32 @@ const descriptions = [
   'ритм большого города',
   'последняя ночь в Париже'
 ];
-//генерация id
+const OBJECT_SIZE = 25;
 
-function generateId(){
+//генерация id
+const generateId = function(){
   let id = 0;
   function addId(){
     id++;
     return id;
   }
   return addId;
-}
+};
 
-const getFotoId = generateId();
-const getFotoUrl = generateId();
+const getId = generateId();
 
-const createFoto = function(){
+const createPhoto = function(){
+  const id = getId();
   return {
-    id: getFotoId(),
-    url: `photos/${getFotoUrl()}.jpg`,
+    id: id,
+    url: `photos/${id}.jpg`,
     description: descriptions[getRandomNumber(0, descriptions.length - 1)],
     likes: getRandomNumber(15, 200),
     comments: getRandomNumber(0, 200)
   };
 };
 
-const fotos = Array.from({length:25}, createFoto);
-
+const generatePhotos = function(size){
+  Array.from({length:size}, createPhoto);
+};
+generatePhotos(OBJECT_SIZE);
