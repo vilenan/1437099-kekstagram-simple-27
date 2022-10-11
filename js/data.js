@@ -1,6 +1,6 @@
 import {getRandomNumber, generateId} from './utils.js';
 
-const OBJECT_SIZE = 25;
+const ARRAY_SIZE = 25;
 
 const descriptions = [
   'золотая осень',
@@ -16,7 +16,7 @@ const getId = generateId();
 const createPhoto = function(){
   const id = getId();
   return {
-    id: id,
+    id,
     url: `photos/${id}.jpg`,
     description: descriptions[getRandomNumber(0, descriptions.length - 1)],
     likes: getRandomNumber(15, 200),
@@ -25,6 +25,6 @@ const createPhoto = function(){
 };
 
 const generatePhotos = function(){
-  return Array.from({length:OBJECT_SIZE}, createPhoto);
+  return Array.from({length:ARRAY_SIZE}, createPhoto);
 };
 export {generatePhotos};
