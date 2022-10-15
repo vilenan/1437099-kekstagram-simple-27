@@ -13,7 +13,7 @@ const descriptions = [
 
 const getId = generateId();
 
-const createPhoto = function(){
+const createPost = function(){
   const id = getId();
   return {
     id,
@@ -24,7 +24,7 @@ const createPhoto = function(){
   };
 };
 
-const generatePhotos = function(){
-  return Array.from({length:ARRAY_SIZE}, createPhoto);
+const generatePosts = function(){
+  return Array.from({length:ARRAY_SIZE}, createPost);
 };
-export {generatePhotos};
+export {generatePosts};
