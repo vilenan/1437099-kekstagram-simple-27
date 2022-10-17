@@ -11,8 +11,8 @@ const renderPost = function (item){
   const postImage = post.querySelector('.picture__img');
   postImage.src = item.url;
   postImage.alt = item.description;
-  post.querySelector('.picture__comments').textContent = String(item.comments);
-  post.querySelector('.picture__likes').textContent = String(item.likes);
+  post.querySelector('.picture__comments').textContent = `${item.comments}`;
+  post.querySelector('.picture__likes').textContent = `${item.likes}`;
   return post;
 };
 
