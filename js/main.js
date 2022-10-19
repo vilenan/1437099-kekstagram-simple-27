@@ -1,2 +1,2 @@
 import './render-posts.js';
-import './modal.js';
+import './form.js';
