@@ -1,4 +1,4 @@
-import {uploadBtn, closeBtn} from './modal.js';
+import {uploadBtn, closeBtn, closeModal} from './modal.js';
 import {isEscKey} from './utils.js';
 
 const form = document.querySelector('.img-upload__form');
@@ -15,66 +15,78 @@ const errMessage = errMessageTemplate.cloneNode(true);
 const closeErrMessageBtn = errMessage.querySelector('.error__button');
 
 //валидация формы
-const pristine = new Pristine(form);
-
-form.addEventListener('submit', (evt)=>{
-  const isValid = pristine.validate();
-  evt.preventDefault();
-  if(isValid){
-    //Если отправка данных прошла успешно, показывается соответствующее сообщение. Разметку сообщения, которая находится в блоке #success внутри
-    // шаблона template, нужно разместить перед закрывающим тегом </body>
-    // Сообщение должно исчезать после нажатия на кнопку .success__button,
-    // по нажатию на клавишу Esc и по клику на произвольную область экрана за пределами блока с сообщением.
-    document.body.append(successMessage);
-    //добавляем обработчик события по крестику
-    closeSuccessMessageBtn.addEventListener('click', ()=>{
-      successMessage.remove();
-    });
-    //добавляем обработчик события по Esc
-    document.addEventListener('keydown', (event)=>{
-      if(isEscKey(event)){
-        successMessage.remove();
-      }
-    });
-    //добавляем обработчик события по области вне модалки
-    document.addEventListener( 'click', (e) => {
-      if(e.target.className !== 'success__inner'){
-        successMessage.remove();
-      }
-    });
-    // поля для ввода комментария очищаются;
-    description.value = '';
-    // поле загрузки фотографии, стилизованное под букву «О» в логотипе, очищается.
-    uploadBtn.value = '';
-    // При успешной отправке формы: масштаб возвращается к 100%;
-    // эффект сбрасывается на «Оригинал»;
-  } else {
-    //Если при отправке данных произошла ошибка запроса, нужно показать соответствующее сообщение.
-    // Разметку сообщения, которая находится в блоке #error внутри шаблона template,
-    // нужно разместить перед закрывающим тегом </body>. Сообщение должно исчезать после нажатия на кнопку .error__button, по нажатию на клавишу Esc
-    // и по клику на произвольную область экрана за пределами блока с сообщением.
-    // В таком случае вся введённая пользователем информация сохраняется, чтобы у него была возможность отправить форму повторно.
-    document.body.append(errMessage);
-    closeErrMessageBtn.addEventListener('click', ()=>{
-      errMessage.remove();
-    });
-    document.addEventListener('keydown', (event)=>{
-      if(isEscKey(event)){
-        errMessage.remove();
-      }
-    });
-    document.addEventListener( 'click', (e) => {
-      if(e.target.className !== 'error__inner'){
-        errMessage.remove();
-      }
-    });
-  }
+const pristine = new Pristine(form,{
+  classTo: 'img-upload__text',
+  errorClass: 'has-danger',
+  errorTextTag: 'div',
+  errorTextParent: 'img-upload__text',
+  errorTextClass: 'text__error'
 });
 
-//Нажатие на кнопку #upload-cancel приводит к закрытию формы и возвращению всех данных к исходному состоянию
-closeBtn.addEventListener('click', ()=>{
+const cleanForm = function(){
   // поля для ввода комментария очищаются;
   description.value = '';
   // поле загрузки фотографии, стилизованное под букву «О» в логотипе, очищается.
   uploadBtn.value = '';
+  const errorContainer = form.querySelector('.img-upload__text');
+  if(errorContainer.classList.contains('has-danger')) {
+    errorContainer.classList.remove('has-danger');
+    form.querySelector('.text__error').style.display = 'none';
+  }
+};
+
+const showSuccessMessage = function (){
+  document.body.append(successMessage);
+  //добавляем обработчик события по крестику
+  closeSuccessMessageBtn.addEventListener('click', ()=>{
+    successMessage.remove();
+  });
+  //добавляем обработчик события по Esc
+  document.addEventListener('keydown', (event)=>{
+    if(isEscKey(event)){
+      successMessage.remove();
+    }
+  });
+  //добавляем обработчик события по области вне модалки
+  document.addEventListener( 'click', (e) => {
+    if(e.target.className !== 'success__inner'){
+      successMessage.remove();
+    }
+  });
+};
+
+const showErrorMessage = function (){
+  document.body.append(errMessage);
+  closeErrMessageBtn.addEventListener('click', ()=>{
+    errMessage.remove();
+  });
+  document.addEventListener('keydown', (event)=>{
+    if(isEscKey(event)){
+      errMessage.remove();
+    }
+  });
+  document.addEventListener( 'click', (e) => {
+    if(e.target.className !== 'error__inner'){
+      errMessage.remove();
+    }
+  });
+};
+
+form.addEventListener('submit', (evt)=>{
+  evt.preventDefault();
+  const isValid = pristine.validate();
+  if(isValid){
+    showSuccessMessage();
+    cleanForm();
+    closeModal();
+    // При успешной отправке формы: масштаб возвращается к 100%;
+    // эффект сбрасывается на «Оригинал»;
+  } else {
+    showErrorMessage();
+  }
 });
+
+//Нажатие на кнопку #upload-cancel приводит к закрытию формы и возвращению всех данных к исходному состоянию
+closeBtn.addEventListener('click', cleanForm);
+export {cleanForm};
+

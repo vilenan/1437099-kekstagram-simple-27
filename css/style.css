@@ -1408,3 +1408,10 @@ main {
 .hidden {
   display: none;
 }
+
+.has-danger .text__description{
+  outline: 2px solid #FF4E4E;
+}
+.text__error {
+  color: #FF4E4E;
+}

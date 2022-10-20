@@ -1,4 +1,5 @@
 import {isEscKey} from './utils.js';
+import {cleanForm} from './form.js';
 // <input type="file" id="upload-file" class="img-upload__input  visually-hidden" name="filename" required>
 //находим поле для загрузки изображения
 const uploadBtn = document.querySelector('#upload-file');
@@ -23,10 +24,11 @@ function closeModal(){
   overlay.classList.add('hidden');
   body.classList.remove('modal-open');
   document.removeEventListener('keydown', onEscKeydown);
+  cleanForm();
 }
 
 uploadBtn.addEventListener('change', openModal);
 
 closeBtn.addEventListener('click', closeModal);
 
-export {uploadBtn, closeBtn};
+export {uploadBtn, closeBtn, closeModal};
