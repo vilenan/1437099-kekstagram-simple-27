@@ -23,4 +23,6 @@ const generateId = function(){
   return addId;
 };
 
-export {getRandomNumber, checkStringLength, generateId};
+const isEscKey = (evt) => evt.key === 'Escape';
+
+export {getRandomNumber, checkStringLength, generateId, isEscKey};
