@@ -28,7 +28,6 @@ function closeModal(){
 }
 
 uploadBtn.addEventListener('change', openModal);
-
 closeBtn.addEventListener('click', closeModal);
 
 export {uploadBtn, closeBtn, closeModal};
