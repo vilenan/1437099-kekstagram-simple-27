@@ -1,4 +1,4 @@
-import {uploadBtn, closeBtn, closeModal} from './modal.js';
+import {uploadBtn, closeModal} from './modal.js';
 import {isEscKey} from './utils.js';
 import {form, previewEl, scaleValueEl, addEffect} from './add-effect.js';
 
