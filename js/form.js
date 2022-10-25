@@ -1,4 +1,4 @@
-import {uploadBtn, closeModal} from './modal.js';
+import {uploadBtn, closeBtn, closeModal} from './modal.js';
 import {isEscKey} from './utils.js';
 import {form, previewEl, scaleValueEl, addEffect} from './add-effect.js';
 
@@ -25,16 +25,16 @@ const pristine = new Pristine(form,{
 });
 
 const cleanForm = function(){
-  description.value = '';
-  uploadBtn.value = '';
+  // description.value = '';
+  // uploadBtn.value = '';
   previewEl.className = '';
-  previewEl.classList.add('effects__preview--none');
   scaleValueEl.value = 100;
   previewEl.style.transform = `scale(${(scaleValueEl.value) / 100})`;
   if(errorContainer.classList.contains('has-danger')) {
     errorContainer.classList.remove('has-danger');
     form.querySelector('.text__error').style.display = 'none';
   }
+  form.reset();
 };
 
 const showSuccessMessage = function (){

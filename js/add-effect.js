@@ -8,23 +8,27 @@ const effectMarvin = form.querySelector('#effect-marvin');
 const effectPhobos = form.querySelector('#effect-phobos');
 const effectHeat = form.querySelector('#effect-heat');
 
-const scaleSmallerBtn = form.querySelector('.scale__control--smaller');
-const scaleBiggerBtn = form.querySelector('.scale__control--bigger');
+const zoomOutBtn = form.querySelector('.scale__control--smaller');
+const zoomInBtn = form.querySelector('.scale__control--bigger');
 const scaleValueEl = form.querySelector('.scale__control--value');
+// scaleValueEl.value = '100';
+// console.log(`scale(${(scaleValueEl.value) / 100})`);
+
+// previewEl.style.transform = `scale(${(scaleValueEl.value) / 100})`;
 
 const sliderEl = form.querySelector('.effect-level__slider');
 
 const SCALE_STEP = 25;
 
-noUiSlider.create(sliderEl, {
-  range: {
-    min: 25,
-    max: 100
-  },
-  start: 100,
-  step: 25,
-  connect: 'lower',
-});
+// noUiSlider.create(sliderEl, {
+//   range: {
+//     min: 25,
+//     max: 100
+//   },
+//   start: 100,
+//   step: 25,
+//   connect: 'lower',
+// });
 
 const addEffect = function (evt){
   if(evt.target === effectNone){
@@ -53,27 +57,34 @@ const addEffect = function (evt){
   }
 };
 
-sliderEl.noUiSlider.on('update', () => {
-  scaleValueEl.value = sliderEl.noUiSlider.get(true);
-  previewEl.style.transform = `scale(${(scaleValueEl.value) / 100})`;
-});
+// sliderEl.noUiSlider.on('update', () => {
+//   scaleValueEl.value = sliderEl.noUiSlider.get(true);
+//   previewEl.style.transform = `scale(${(scaleValueEl.value) / 100})`;
+// });
 
-scaleSmallerBtn.addEventListener('click', ()=>{
-  if((scaleValueEl.value > 25) && (scaleValueEl.value <= 100)){
-    scaleValueEl.value -= SCALE_STEP;
-    sliderEl.noUiSlider.set(scaleValueEl.value);
-    previewEl.style.transform = `scale(${(scaleValueEl.value) / 100})`;
-  }
-});
 
-scaleBiggerBtn.addEventListener('click', ()=>{
-  if((scaleValueEl.value >= 25) && (scaleValueEl.value < 100)){
-    const scaleValueNum = parseInt(scaleValueEl.value,10);
-    scaleValueEl.value = scaleValueNum + SCALE_STEP;
-    sliderEl.noUiSlider.set(scaleValueEl.value);
-    previewEl.style.transform = `scale(${(scaleValueEl.value) / 100})`;
+// const scaleValueNum = parseInt(scaleValueEl.value,10);
+
+const increaseImage = function (){
+  let scale = parseInt(scaleValueEl.value,10);
+  if(scale > 25) {
+    scale -= SCALE_STEP;
+    previewEl.style.transform = `scale(${(scale) / 100})`;
+    scaleValueEl.value = `${scale}%`;
   }
-});
+};
+
+const shrinkImage = function (){
+  let scale = parseInt(scaleValueEl.value,10);
+  if(scale < 100){
+    scale += SCALE_STEP;
+    previewEl.style.transform = `scale(${(scale) / 100})`;
+    scaleValueEl.value = `${scale}%`;
+  }
+};
+
+zoomOutBtn.addEventListener('click', increaseImage);
+zoomInBtn.addEventListener('click', shrinkImage);
 
 export {addEffect, previewEl, form, scaleValueEl};
 
