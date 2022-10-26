@@ -1,8 +1,8 @@
-import {uploadBtn, closeBtn, closeModal} from './modal.js';
+import {closeModal} from './modal.js';
 import {isEscKey} from './utils.js';
 import {form, previewEl, scaleValueEl, addEffect} from './add-effect.js';
 
-const description = form.querySelector('.text__description');
+// const description = form.querySelector('.text__description');
 
 const successMessageTemplate = document.querySelector('#success').content.querySelector('.success');
 const successMessage = successMessageTemplate.cloneNode(true);
