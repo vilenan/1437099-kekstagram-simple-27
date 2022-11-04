@@ -2,8 +2,6 @@ import {closeModal} from './modal.js';
 import {isEscKey} from './utils.js';
 import {form, previewEl, scaleValueEl, addEffect} from './add-effect.js';
 
-// const description = form.querySelector('.text__description');
-
 const successMessageTemplate = document.querySelector('#success').content.querySelector('.success');
 const successMessage = successMessageTemplate.cloneNode(true);
 const closeSuccessMessageBtn = successMessage.querySelector('.success__button');
@@ -25,8 +23,6 @@ const pristine = new Pristine(form,{
 });
 
 const cleanForm = function(){
-  // description.value = '';
-  // uploadBtn.value = '';
   previewEl.className = '';
   scaleValueEl.value = 100;
   previewEl.style.transform = `scale(${(scaleValueEl.value) / 100})`;
