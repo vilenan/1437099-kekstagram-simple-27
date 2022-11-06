@@ -1,6 +1,7 @@
-import {closeModal} from './modal.js';
+import {closeBtn, closeModal} from './modal.js';
 import {isEscKey} from './utils.js';
-import {form, previewEl, scaleValueEl, addEffect} from './add-effect.js';
+import {form, previewEl, scaleValueEl, removeEffect} from './add-effect.js';
+import {sendData} from './api.js';
 
 const successMessageTemplate = document.querySelector('#success').content.querySelector('.success');
 const successMessage = successMessageTemplate.cloneNode(true);
@@ -10,8 +11,15 @@ const errMessageTemplate = document.querySelector('#error').content.querySelecto
 const errMessage = errMessageTemplate.cloneNode(true);
 const closeErrMessageBtn = errMessage.querySelector('.error__button');
 const errorContainer = form.querySelector('.img-upload__text');
+const submitBtn = form.querySelector('.img-upload__submit');
 
-const effectsList = document.querySelector('.effects__list');
+const blockBtn = function (){
+  submitBtn.setAttribute('disabled', true);
+};
+
+const unblockBtn = function (){
+  submitBtn.removeAttribute('disabled');
+};
 
 //валидация формы
 const pristine = new Pristine(form,{
@@ -31,6 +39,7 @@ const cleanForm = function(){
     form.querySelector('.text__error').style.display = 'none';
   }
   form.reset();
+  previewEl.style = '';
 };
 
 const showSuccessMessage = function (){
@@ -71,14 +80,28 @@ form.addEventListener('submit', (evt)=>{
   evt.preventDefault();
   const isValid = pristine.validate();
   if(isValid){
-    showSuccessMessage();
-    cleanForm();
-    closeModal();
+    const formData = new FormData(evt.target);
+    blockBtn();
+    sendData(
+      () => {
+        showSuccessMessage();
+        cleanForm();
+        removeEffect();
+        closeModal();
+        unblockBtn();
+      },
+      () => {
+        showErrorMessage();
+        unblockBtn();
+      },
+      formData
+    );
   } else {
     showErrorMessage();
   }
 });
 
-effectsList.addEventListener('click', addEffect);
+closeBtn.addEventListener('click', removeEffect);
+closeBtn.addEventListener('click', cleanForm);
 
-export {cleanForm, form, previewEl};
+export {cleanForm, removeEffect, form, previewEl, showSuccessMessage};

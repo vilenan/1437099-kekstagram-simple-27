@@ -1,6 +1,3 @@
-import {generatePosts} from './data.js';
-//получаем массив постов пользователей
-const posts = generatePosts();
 //находим контейнер для фото
 const postsContainer = document.querySelector('.pictures');
 //находим шаблон
@@ -16,11 +13,12 @@ const renderPost = function (item){
   return post;
 };
 
-const fragment = document.createDocumentFragment();
-
-posts.forEach((post)=>{
-  const newPost = renderPost(post);
-  fragment.append(newPost);
-});
-
-postsContainer.append(fragment);
+function generatePosts(posts){
+  const fragment = document.createDocumentFragment();
+  posts.forEach((post)=>{
+    const newPost = renderPost(post);
+    fragment.append(newPost);
+  });
+  postsContainer.append(fragment);
+}
+export {generatePosts};

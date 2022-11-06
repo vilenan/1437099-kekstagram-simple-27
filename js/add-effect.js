@@ -87,32 +87,43 @@ noUiSlider.create(sliderEl, {
   start: 1,
   connect: 'lower',
 });
-let currentEffect;
 
-const addEffect = function (evt){
+let currentEffect;
+const effectsList = document.querySelector('.effects__list');
+
+const changeSlider = (effect) => {
+  sliderEl.noUiSlider.updateOptions({
+    range: {
+      min: effect.range.min,
+      max: effect.range.max,
+    },
+    start: effect.start,
+    step: effect.step,
+  });
+};
+
+const addEffect = (evt) => {
   currentEffect = effects[evt.target.value]; //какой эффект выбран heat, объект
   previewEl.className = '';
   previewEl.classList.add(`effects__preview--${evt.target.value}`);
-  sliderEl.noUiSlider.updateOptions({
-    range: {
-      min: currentEffect.range.min,
-      max: currentEffect.range.max,
-    },
-    start: currentEffect.start,
-    step: currentEffect.step,
-  });
-  return currentEffect;
+  changeSlider(currentEffect);
+};
+
+
+const removeEffect = function (){
+  currentEffect = effects.none;
+  sliderEl.style.display = 'none';
 };
 
 sliderEl.noUiSlider.on('update', () => {
   const effectValue = sliderEl.noUiSlider.get(true);
   effectValueEl.value = effectValue;
   if(currentEffect && currentEffect.name !== effects.none.name){
-    sliderEl.removeAttribute('disabled');
+    sliderEl.style.display = 'block';
     previewEl.style.filter = `${currentEffect.filter}(${effectValue}${currentEffect.prefix})`;
   } else {
     previewEl.style.filter = '';
-    sliderEl.setAttribute('disabled', true);
+    sliderEl.style.display = 'none';
   }
 });
 
@@ -136,6 +147,7 @@ const shrinkImage = function (){
 
 zoomOutBtn.addEventListener('click', increaseImage);
 zoomInBtn.addEventListener('click', shrinkImage);
+effectsList.addEventListener('click', addEffect);
 
-export {addEffect, previewEl, form, scaleValueEl};
+export {previewEl, form, scaleValueEl, effectValueEl, removeEffect, addEffect};
 

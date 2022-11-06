@@ -1,5 +1,5 @@
 import {isEscKey} from './utils.js';
-import {cleanForm} from './form.js';
+import {cleanForm, removeEffect} from './form.js';
 
 const uploadBtn = document.querySelector('#upload-file');
 const overlay = document.querySelector('.img-upload__overlay');
@@ -10,6 +10,8 @@ const closeBtn = document.querySelector('#upload-cancel');
 const onEscKeydown = (evt)=> {
   if (isEscKey(evt)){
     closeModal();
+    cleanForm();
+    removeEffect();
   }
 };
 
@@ -23,7 +25,6 @@ function closeModal(){
   overlay.classList.add('hidden');
   body.classList.remove('modal-open');
   document.removeEventListener('keydown', onEscKeydown);
-  cleanForm();
 }
 
 uploadBtn.addEventListener('change', openModal);
