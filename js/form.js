@@ -1,5 +1,5 @@
 import {closeBtn, closeModal} from './modal.js';
-import {isEscKey} from './utils.js';
+import {isEscKey, showAlert} from './utils.js';
 import {form, previewEl, scaleValueEl, removeEffect} from './add-effect.js';
 import {sendData} from './api.js';
 
@@ -97,7 +97,7 @@ form.addEventListener('submit', (evt)=>{
       formData
     );
   } else {
-    showErrorMessage();
+    showAlert('Поля заполнены неверно');
   }
 });
 

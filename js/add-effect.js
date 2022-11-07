@@ -106,7 +106,7 @@ const changeSlider = (effect) => {
 };
 
 const addEffect = (evt) => {
-  currentEffect = effects[evt.target.value]; //какой эффект выбран heat, объект
+  currentEffect = effects[evt.target.value];
   previewEl.className = '';
   previewEl.classList.add(`effects__preview--${evt.target.value}`);
   changeSlider(currentEffect);
