@@ -3,7 +3,6 @@ import {cleanForm, removeEffect} from './form.js';
 import {previewEl} from './add-effect.js';
 
 const uploadBtn = document.querySelector('#upload-file');
-// <input type="file" id="upload-file" className="img-upload__input  visually-hidden" name="filename" required>
 const overlay = document.querySelector('.img-upload__overlay');
 const body = document.querySelector('body');
 const closeBtn = document.querySelector('#upload-cancel');

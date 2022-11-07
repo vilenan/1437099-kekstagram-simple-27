@@ -1,16 +1,12 @@
 const form = document.querySelector('.img-upload__form');
 const previewEl = form.querySelector('.img-upload__preview img');
-
 const zoomOutBtn = form.querySelector('.scale__control--smaller');
 const zoomInBtn = form.querySelector('.scale__control--bigger');
 const scaleValueEl = form.querySelector('.scale__control--value');
-
 const sliderEl = form.querySelector('.effect-level__slider');
 const sliderElWrapper = form.querySelector('.effect-level');
-
-
 const effectValueEl = form.querySelector('.effect-level__value');
-
+const effectsList = document.querySelector('.effects__list');
 
 const SCALE_STEP = 25;
 const effects = {
@@ -91,9 +87,6 @@ noUiSlider.create(sliderEl, {
   connect: 'lower',
 });
 
-let currentEffect;
-const effectsList = document.querySelector('.effects__list');
-
 const changeSlider = (effect) => {
   sliderEl.noUiSlider.updateOptions({
     range: {
@@ -104,6 +97,8 @@ const changeSlider = (effect) => {
     step: effect.step,
   });
 };
+
+let currentEffect;
 
 const addEffect = (evt) => {
   currentEffect = effects[evt.target.value];

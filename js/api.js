@@ -1,4 +1,5 @@
 const BASE_URL = 'https://27.javascript.pages.academy/kekstagram-simple';
+
 const getData = function (onSuccess, onError){
   fetch(`${BASE_URL}/data`)
     .then((response) => {
@@ -26,5 +27,5 @@ const sendData = (onSuccess, onError, body) => {
   })
     .catch(() => onError());
 } ;
-//удача - показываем сообщение, неудача - показываем сообщение
+
 export {getData, sendData};

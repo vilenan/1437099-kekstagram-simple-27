@@ -1,8 +1,5 @@
-//находим контейнер для фото
 const postsContainer = document.querySelector('.pictures');
-//находим шаблон
 const postTemplate = document.querySelector('#picture').content.querySelector('.picture');
-//функция отрисовывает пост
 const renderPost = function (item){
   const post = postTemplate.cloneNode(true);
   const postImage = post.querySelector('.picture__img');
@@ -21,4 +18,5 @@ function generatePosts(posts){
   });
   postsContainer.append(fragment);
 }
+
 export {generatePosts};

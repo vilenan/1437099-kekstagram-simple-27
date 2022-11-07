@@ -6,10 +6,10 @@ const showAlert = function (message){
   alertEl.style.position = 'absolute';
   alertEl.style.width = '500';
   alertEl.style.height = '500';
-  alertEl.style.zIndex = 100;
-  alertEl.style.top = 0;
-  alertEl.style.left = 0;
-  alertEl.style.right = 0;
+  alertEl.style.zIndex = '100';
+  alertEl.style.top = '0';
+  alertEl.style.left = '0';
+  alertEl.style.right = '0';
   alertEl.style.backgroundColor = '#FF4E4E';
   alertEl.style.padding = '20px';
   alertEl.style.textAlign = 'center';
@@ -19,6 +19,5 @@ const showAlert = function (message){
     alertEl.remove();
   }, ALERT_SHOW_TIME);
 };
-
 
 export {isEscKey, showAlert};
