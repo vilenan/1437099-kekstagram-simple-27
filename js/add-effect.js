@@ -6,6 +6,9 @@ const zoomInBtn = form.querySelector('.scale__control--bigger');
 const scaleValueEl = form.querySelector('.scale__control--value');
 
 const sliderEl = form.querySelector('.effect-level__slider');
+const sliderElWrapper = form.querySelector('.effect-level');
+
+
 const effectValueEl = form.querySelector('.effect-level__value');
 
 
@@ -112,18 +115,18 @@ const addEffect = (evt) => {
 
 const removeEffect = function (){
   currentEffect = effects.none;
-  sliderEl.style.display = 'none';
+  sliderElWrapper.style.display = 'none';
 };
 
 sliderEl.noUiSlider.on('update', () => {
   const effectValue = sliderEl.noUiSlider.get(true);
   effectValueEl.value = effectValue;
   if(currentEffect && currentEffect.name !== effects.none.name){
-    sliderEl.style.display = 'block';
+    sliderElWrapper.style.display = 'block';
     previewEl.style.filter = `${currentEffect.filter}(${effectValue}${currentEffect.prefix})`;
   } else {
     previewEl.style.filter = '';
-    sliderEl.style.display = 'none';
+    sliderElWrapper.style.display = 'none';
   }
 });
 
