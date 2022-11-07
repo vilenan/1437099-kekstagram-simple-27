@@ -1,10 +1,22 @@
 import {isEscKey} from './utils.js';
 import {cleanForm, removeEffect} from './form.js';
+import {previewEl} from './add-effect.js';
 
 const uploadBtn = document.querySelector('#upload-file');
+// <input type="file" id="upload-file" className="img-upload__input  visually-hidden" name="filename" required>
 const overlay = document.querySelector('.img-upload__overlay');
 const body = document.querySelector('body');
 const closeBtn = document.querySelector('#upload-cancel');
+
+uploadBtn.addEventListener('change',()=> {
+  const localPhoto = uploadBtn.files[0];
+  if (localPhoto) {
+    previewEl.src = URL.createObjectURL(localPhoto);
+    // localStorage.setItem('myImage', previewEl.src);
+  }
+});
+// previewEl.src = localStorage.getItem('myImage');
+
 
 //функция закрытия при нажатии на Esc
 const onEscKeydown = (evt)=> {
