@@ -42,38 +42,40 @@ const cleanForm = function(){
   previewEl.style = '';
 };
 
-const showSuccessMessage = function (){
+const hideMessage = function(){
+  const messageEl = successMessage || errMessage;
+  messageEl.remove();
+  document.body.style.overflow = 'auto';
+  document.removeEventListener('keydown', onMessageEscKeydown);
+  document.removeEventListener( 'click', onOverlayClick);
+};
+
+function onMessageEscKeydown(event){
+  if(isEscKey(event)){
+    hideMessage();
+  }
+}
+
+function onOverlayClick(event){
+  if((event.target.className !== 'success__inner') || (event.target.className !== 'error__inner')){
+    hideMessage();
+  }
+}
+
+const showSuccessMessage = function(){
   document.body.append(successMessage);
-  closeSuccessMessageBtn.addEventListener('click', ()=>{
-    successMessage.remove();
-  });
-  document.addEventListener('keydown', (event)=>{
-    if(isEscKey(event)){
-      successMessage.remove();
-    }
-  });
-  document.addEventListener( 'click', (e) => {
-    if(e.target.className !== 'success__inner'){
-      successMessage.remove();
-    }
-  });
+  document.body.style.overflow = 'hidden';
+  closeSuccessMessageBtn.addEventListener('click', hideMessage);
+  document.addEventListener('keydown', onMessageEscKeydown);
+  document.addEventListener( 'click', onOverlayClick);
 };
 
 const showErrorMessage = function (){
   document.body.append(errMessage);
-  closeErrMessageBtn.addEventListener('click', ()=>{
-    errMessage.remove();
-  });
-  document.addEventListener('keydown', (event)=>{
-    if(isEscKey(event)){
-      errMessage.remove();
-    }
-  });
-  document.addEventListener( 'click', (e) => {
-    if(e.target.className !== 'error__inner'){
-      errMessage.remove();
-    }
-  });
+  document.body.style.overflow = 'hidden';
+  closeErrMessageBtn.addEventListener('click', hideMessage);
+  document.addEventListener('keydown', onMessageEscKeydown);
+  document.addEventListener( 'click', onOverlayClick);
 };
 
 form.addEventListener('submit', (evt)=>{
