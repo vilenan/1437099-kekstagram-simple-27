@@ -11,11 +11,8 @@ uploadBtn.addEventListener('change',()=> {
   const localPhoto = uploadBtn.files[0];
   if (localPhoto) {
     previewEl.src = URL.createObjectURL(localPhoto);
-    // localStorage.setItem('myImage', previewEl.src);
   }
 });
-// previewEl.src = localStorage.getItem('myImage');
-
 
 //функция закрытия при нажатии на Esc
 const onEscKeydown = (evt)=> {

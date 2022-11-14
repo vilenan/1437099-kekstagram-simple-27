@@ -10,13 +10,13 @@ const renderPost = function (item){
   return post;
 };
 
-function generatePosts(posts){
+const generatePosts = function(posts){
   const fragment = document.createDocumentFragment();
-  posts.forEach((post)=>{
+  posts.forEach((post) => {
     const newPost = renderPost(post);
     fragment.append(newPost);
   });
   postsContainer.append(fragment);
-}
+};
 
 export {generatePosts};

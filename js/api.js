@@ -13,7 +13,7 @@ const getData = function (onSuccess, onError){
     .catch(() => onError('Произошла ошибка загрузки с сервера'));
 };
 
-const sendData = (onSuccess, onError, body) => {
+const sendData = function (onSuccess, onError, body){
   fetch(BASE_URL,
     {
       method: 'POST',

@@ -87,7 +87,7 @@ noUiSlider.create(sliderEl, {
   connect: 'lower',
 });
 
-const changeSlider = (effect) => {
+const changeSlider = function (effect){
   sliderEl.noUiSlider.updateOptions({
     range: {
       min: effect.range.min,
@@ -100,13 +100,12 @@ const changeSlider = (effect) => {
 
 let currentEffect;
 
-const addEffect = (evt) => {
+const addEffect = function (evt){
   currentEffect = effects[evt.target.value];
   previewEl.className = '';
   previewEl.classList.add(`effects__preview--${evt.target.value}`);
   changeSlider(currentEffect);
 };
-
 
 const removeEffect = function (){
   currentEffect = effects.none;
