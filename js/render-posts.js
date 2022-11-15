@@ -10,7 +10,7 @@ const renderPost = function (item){
   return post;
 };
 
-const generatePosts = function(posts){
+const renderPosts = function(posts){
   const fragment = document.createDocumentFragment();
   posts.forEach((post) => {
     const newPost = renderPost(post);
@@ -19,4 +19,4 @@ const generatePosts = function(posts){
   postsContainer.append(fragment);
 };
 
-export {generatePosts};
+export {renderPosts};

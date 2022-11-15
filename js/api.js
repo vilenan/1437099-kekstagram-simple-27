@@ -5,7 +5,8 @@ const getData = function (onSuccess, onError){
     .then((response) => {
       if(response.ok){
         return response.json();
-      }onError('Произошла ошибка загрузки с сервера');
+      }
+      onError('Произошла ошибка загрузки с сервера');
     })
     .then((posts) => {
       onSuccess(posts);
@@ -23,9 +24,9 @@ const sendData = function (onSuccess, onError, body){
     if(response.ok){
       onSuccess();
       return;
-    } onError();
+    }onError();
   })
-    .catch(() => onError());
+    .catch(onError);
 } ;
 
 export {getData, sendData};

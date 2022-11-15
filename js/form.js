@@ -1,8 +1,9 @@
 import {closeBtn, closeModal} from './modal.js';
 import {isEscKey, showAlert} from './utils.js';
-import {form, previewEl, scaleValueEl, removeEffect} from './add-effect.js';
+import {form, preview, scaleValue, resetSlider} from './add-effect.js';
 import {sendData} from './api.js';
 
+const DEFAULT_SCALE_VALUE = 100;
 const successMessageTemplate = document.querySelector('#success').content.querySelector('.success');
 const successMessage = successMessageTemplate.cloneNode(true);
 const closeSuccessMessageBtn = successMessage.querySelector('.success__button');
@@ -13,15 +14,6 @@ const closeErrMessageBtn = errMessage.querySelector('.error__button');
 const errorContainer = form.querySelector('.img-upload__text');
 const submitBtn = form.querySelector('.img-upload__submit');
 
-const blockBtn = function (){
-  submitBtn.setAttribute('disabled', true);
-};
-
-const unblockBtn = function (){
-  submitBtn.removeAttribute('disabled');
-};
-
-//валидация формы
 const pristine = new Pristine(form,{
   classTo: 'img-upload__text',
   errorClass: 'has-danger',
@@ -30,21 +22,32 @@ const pristine = new Pristine(form,{
   errorTextClass: 'text__error'
 });
 
+const blockBtn = function (){
+  submitBtn.setAttribute('disabled', true);
+};
+
+const unblockBtn = function (){
+  submitBtn.removeAttribute('disabled');
+};
+
 const cleanForm = function(){
-  previewEl.className = '';
-  scaleValueEl.value = 100;
-  previewEl.style.transform = `scale(${(scaleValueEl.value) / 100})`;
+  preview.className = '';
+  scaleValue.value = DEFAULT_SCALE_VALUE;
+  preview.style.transform = `scale(${(scaleValue.value) / 100})`;
+  form.reset();
+  preview.style = '';
   if(errorContainer.classList.contains('has-danger')) {
     errorContainer.classList.remove('has-danger');
     form.querySelector('.text__error').style.display = 'none';
   }
-  form.reset();
-  previewEl.style = '';
 };
 
 const hideMessage = function(){
-  const messageEl = successMessage || errMessage;
-  messageEl.remove();
+  let message;
+  if(document.body.contains(successMessage)){
+    message = successMessage;
+  } else { message = errMessage;}
+  message.remove();
   document.body.style.overflow = 'auto';
   document.removeEventListener('keydown', onMessageEscKeydown);
   document.removeEventListener( 'click', onOverlayClick);
@@ -88,7 +91,7 @@ form.addEventListener('submit', (evt)=>{
       () => {
         showSuccessMessage();
         cleanForm();
-        removeEffect();
+        resetSlider();
         closeModal();
         unblockBtn();
       },
@@ -103,7 +106,7 @@ form.addEventListener('submit', (evt)=>{
   }
 });
 
-closeBtn.addEventListener('click', removeEffect);
+closeBtn.addEventListener('click', resetSlider);
 closeBtn.addEventListener('click', cleanForm);
 
-export {cleanForm, removeEffect, form, previewEl, showSuccessMessage};
+export {cleanForm, form, successMessage, errMessage};
