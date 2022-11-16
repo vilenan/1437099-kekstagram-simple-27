@@ -13,7 +13,7 @@ uploadBtn.addEventListener('change',()=> {
   }
 });
 
-const onEscKeydown = (evt)=> {
+const onEscKeydown = function (evt){
   if (isEscKey(evt) && (!document.body.contains(successMessage)) && (!document.body.contains(errMessage))){
     closeModal();
     cleanForm();

@@ -1,15 +1,6 @@
 const SCALE_STEP = 25;
 const MIN_SCALE_VALUE = 25;
 const MAX_SCALE_VALUE = 100;
-const form = document.querySelector('.img-upload__form');
-const preview = form.querySelector('.img-upload__preview img');
-const zoomOutBtn = form.querySelector('.scale__control--smaller');
-const zoomInBtn = form.querySelector('.scale__control--bigger');
-const scaleValue = form.querySelector('.scale__control--value');
-const slider = form.querySelector('.effect-level__slider');
-const sliderWrapper = form.querySelector('.effect-level');
-const effectLevel = form.querySelector('.effect-level__value');
-const effectsList = document.querySelector('.effects__list');
 const EFFECTS = {
   none : {
     name: 'none',
@@ -78,6 +69,16 @@ const EFFECTS = {
     prefix: '',
   },
 };
+
+const form = document.querySelector('.img-upload__form');
+const preview = form.querySelector('.img-upload__preview img');
+const zoomOutBtn = form.querySelector('.scale__control--smaller');
+const zoomInBtn = form.querySelector('.scale__control--bigger');
+const scaleValue = form.querySelector('.scale__control--value');
+const slider = form.querySelector('.effect-level__slider');
+const sliderWrapper = form.querySelector('.effect-level');
+const effectLevel = form.querySelector('.effect-level__value');
+const effectsList = document.querySelector('.effects__list');
 
 let currentEffect;
 
