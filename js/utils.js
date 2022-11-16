@@ -1,28 +1,23 @@
-//Функция, возвращающая случайное целое число из переданного диапазона включительно
-const getRandomNumber = function (a, b){
-  if((a < 0) || (b < 0) || (a === b)){
-    return NaN;
-  }
-  const lower = Math.ceil(Math.min(a, b));
-  const upper = Math.floor(Math.max(a, b));
-  return Math.floor(lower + Math.random() * (upper - lower + 1));
-};
-
-//Функция, проверяющая максимальную длину строки. Результат: true, если строка проходит по длине, и false — если не проходит
-const checkStringLength = function (str, maxLength){
-  return str.length <= maxLength;
-};
-
-//генерация id
-const generateId = function(){
-  let id = 0;
-  function addId(){
-    id++;
-    return id;
-  }
-  return addId;
-};
-
+const ALERT_SHOW_TIME = 5000;
 const isEscKey = (evt) => evt.key === 'Escape';
 
-export {getRandomNumber, checkStringLength, generateId, isEscKey};
+const showAlert = function (message){
+  const alert = document.createElement('div');
+  alert.style.position = 'absolute';
+  alert.style.width = '500';
+  alert.style.height = '500';
+  alert.style.zIndex = '100';
+  alert.style.top = '0';
+  alert.style.left = '0';
+  alert.style.right = '0';
+  alert.style.backgroundColor = '#FF4E4E';
+  alert.style.padding = '20px';
+  alert.style.textAlign = 'center';
+  alert.textContent = message;
+  document.body.append(alert);
+  setTimeout(() => {
+    alert.remove();
+  }, ALERT_SHOW_TIME);
+};
+
+export {isEscKey, showAlert};

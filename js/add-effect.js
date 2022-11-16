@@ -1,16 +1,16 @@
+const SCALE_STEP = 25;
+const MIN_SCALE_VALUE = 25;
+const MAX_SCALE_VALUE = 100;
 const form = document.querySelector('.img-upload__form');
-const previewEl = form.querySelector('.img-upload__preview img');
-
+const preview = form.querySelector('.img-upload__preview img');
 const zoomOutBtn = form.querySelector('.scale__control--smaller');
 const zoomInBtn = form.querySelector('.scale__control--bigger');
-const scaleValueEl = form.querySelector('.scale__control--value');
-
-const sliderEl = form.querySelector('.effect-level__slider');
-const effectValueEl = form.querySelector('.effect-level__value');
-
-
-const SCALE_STEP = 25;
-const effects = {
+const scaleValue = form.querySelector('.scale__control--value');
+const slider = form.querySelector('.effect-level__slider');
+const sliderWrapper = form.querySelector('.effect-level');
+const effectLevel = form.querySelector('.effect-level__value');
+const effectsList = document.querySelector('.effects__list');
+const EFFECTS = {
   none : {
     name: 'none',
     range: {
@@ -79,7 +79,9 @@ const effects = {
   },
 };
 
-noUiSlider.create(sliderEl, {
+let currentEffect;
+
+noUiSlider.create(slider, {
   range: {
     min: 0,
     max: 1
@@ -87,55 +89,63 @@ noUiSlider.create(sliderEl, {
   start: 1,
   connect: 'lower',
 });
-let currentEffect;
 
-const addEffect = function (evt){
-  currentEffect = effects[evt.target.value]; //какой эффект выбран heat, объект
-  previewEl.className = '';
-  previewEl.classList.add(`effects__preview--${evt.target.value}`);
-  sliderEl.noUiSlider.updateOptions({
+const updateSlider = function (effect){
+  slider.noUiSlider.updateOptions({
     range: {
-      min: currentEffect.range.min,
-      max: currentEffect.range.max,
+      min: effect.range.min,
+      max: effect.range.max,
     },
-    start: currentEffect.start,
-    step: currentEffect.step,
+    start: effect.start,
+    step: effect.step,
   });
-  return currentEffect;
 };
 
-sliderEl.noUiSlider.on('update', () => {
-  const effectValue = sliderEl.noUiSlider.get(true);
-  effectValueEl.value = effectValue;
-  if(currentEffect && currentEffect.name !== effects.none.name){
-    sliderEl.removeAttribute('disabled');
-    previewEl.style.filter = `${currentEffect.filter}(${effectValue}${currentEffect.prefix})`;
+const onChangeEffectItem = function (evt){
+  currentEffect = EFFECTS[evt.target.value];
+  preview.className = '';
+  preview.classList.add(`effects__preview--${evt.target.value}`);
+  updateSlider(currentEffect);
+};
+
+const resetSlider = function (){
+  currentEffect = EFFECTS.none;
+  sliderWrapper.style.display = 'none';
+};
+
+slider.noUiSlider.on('update', () => {
+  const effectValue = slider.noUiSlider.get(true);
+  effectLevel.value = effectValue;
+  if(currentEffect && currentEffect.name !== EFFECTS.none.name){
+    sliderWrapper.style.display = 'block';
+    preview.style.filter = `${currentEffect.filter}(${effectValue}${currentEffect.prefix})`;
   } else {
-    previewEl.style.filter = '';
-    sliderEl.setAttribute('disabled', true);
+    preview.style.filter = '';
+    sliderWrapper.style.display = 'none';
   }
 });
 
-const increaseImage = function (){
-  let scale = parseInt(scaleValueEl.value,10);
-  if(scale > 25) {
+const onZoomOutBtnClick = function (){
+  let scale = parseInt(scaleValue.value,10);
+  if(scale > MIN_SCALE_VALUE) {
     scale -= SCALE_STEP;
-    previewEl.style.transform = `scale(${(scale) / 100})`;
-    scaleValueEl.value = `${scale}%`;
+    preview.style.transform = `scale(${(scale) / 100})`;
+    scaleValue.value = `${scale}%`;
   }
 };
 
-const shrinkImage = function (){
-  let scale = parseInt(scaleValueEl.value,10);
-  if(scale < 100){
+const onZoomInBtnClick = function (){
+  let scale = parseInt(scaleValue.value,10);
+  if(scale < MAX_SCALE_VALUE){
     scale += SCALE_STEP;
-    previewEl.style.transform = `scale(${(scale) / 100})`;
-    scaleValueEl.value = `${scale}%`;
+    preview.style.transform = `scale(${(scale) / 100})`;
+    scaleValue.value = `${scale}%`;
   }
 };
 
-zoomOutBtn.addEventListener('click', increaseImage);
-zoomInBtn.addEventListener('click', shrinkImage);
+zoomOutBtn.addEventListener('click', onZoomOutBtnClick);
+zoomInBtn.addEventListener('click', onZoomInBtnClick);
+effectsList.addEventListener('change', onChangeEffectItem);
 
-export {addEffect, previewEl, form, scaleValueEl};
+export {preview, form, scaleValue, effectLevel, resetSlider, onChangeEffectItem};
 

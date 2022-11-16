@@ -1,7 +1,9 @@
-import {closeModal} from './modal.js';
-import {isEscKey} from './utils.js';
-import {form, previewEl, scaleValueEl, addEffect} from './add-effect.js';
+import {closeBtn, closeModal} from './modal.js';
+import {isEscKey, showAlert} from './utils.js';
+import {form, preview, scaleValue, resetSlider} from './add-effect.js';
+import {sendData} from './api.js';
 
+const DEFAULT_SCALE_VALUE = 100;
 const successMessageTemplate = document.querySelector('#success').content.querySelector('.success');
 const successMessage = successMessageTemplate.cloneNode(true);
 const closeSuccessMessageBtn = successMessage.querySelector('.success__button');
@@ -10,10 +12,8 @@ const errMessageTemplate = document.querySelector('#error').content.querySelecto
 const errMessage = errMessageTemplate.cloneNode(true);
 const closeErrMessageBtn = errMessage.querySelector('.error__button');
 const errorContainer = form.querySelector('.img-upload__text');
+const submitBtn = form.querySelector('.img-upload__submit');
 
-const effectsList = document.querySelector('.effects__list');
-
-//валидация формы
 const pristine = new Pristine(form,{
   classTo: 'img-upload__text',
   errorClass: 'has-danger',
@@ -22,63 +22,91 @@ const pristine = new Pristine(form,{
   errorTextClass: 'text__error'
 });
 
+const blockBtn = function (){
+  submitBtn.setAttribute('disabled', true);
+};
+
+const unblockBtn = function (){
+  submitBtn.removeAttribute('disabled');
+};
+
 const cleanForm = function(){
-  previewEl.className = '';
-  scaleValueEl.value = 100;
-  previewEl.style.transform = `scale(${(scaleValueEl.value) / 100})`;
+  preview.className = '';
+  scaleValue.value = DEFAULT_SCALE_VALUE;
+  preview.style.transform = `scale(${(scaleValue.value) / 100})`;
+  form.reset();
+  preview.style = '';
   if(errorContainer.classList.contains('has-danger')) {
     errorContainer.classList.remove('has-danger');
     form.querySelector('.text__error').style.display = 'none';
   }
-  form.reset();
 };
 
-const showSuccessMessage = function (){
+const hideMessage = function(){
+  let message;
+  if(document.body.contains(successMessage)){
+    message = successMessage;
+  } else { message = errMessage;}
+  message.remove();
+  document.body.style.overflow = 'auto';
+  document.removeEventListener('keydown', onMessageEscKeydown);
+  document.removeEventListener( 'click', onOverlayClick);
+};
+
+function onMessageEscKeydown(event){
+  if(isEscKey(event)){
+    hideMessage();
+  }
+}
+
+function onOverlayClick(event){
+  if((event.target.className !== 'success__inner') || (event.target.className !== 'error__inner')){
+    hideMessage();
+  }
+}
+
+const showSuccessMessage = function(){
   document.body.append(successMessage);
-  closeSuccessMessageBtn.addEventListener('click', ()=>{
-    successMessage.remove();
-  });
-  document.addEventListener('keydown', (event)=>{
-    if(isEscKey(event)){
-      successMessage.remove();
-    }
-  });
-  document.addEventListener( 'click', (e) => {
-    if(e.target.className !== 'success__inner'){
-      successMessage.remove();
-    }
-  });
+  document.body.style.overflow = 'hidden';
+  closeSuccessMessageBtn.addEventListener('click', hideMessage);
+  document.addEventListener('keydown', onMessageEscKeydown);
+  document.addEventListener( 'click', onOverlayClick);
 };
 
 const showErrorMessage = function (){
   document.body.append(errMessage);
-  closeErrMessageBtn.addEventListener('click', ()=>{
-    errMessage.remove();
-  });
-  document.addEventListener('keydown', (event)=>{
-    if(isEscKey(event)){
-      errMessage.remove();
-    }
-  });
-  document.addEventListener( 'click', (e) => {
-    if(e.target.className !== 'error__inner'){
-      errMessage.remove();
-    }
-  });
+  document.body.style.overflow = 'hidden';
+  closeErrMessageBtn.addEventListener('click', hideMessage);
+  document.addEventListener('keydown', onMessageEscKeydown);
+  document.addEventListener( 'click', onOverlayClick);
 };
 
 form.addEventListener('submit', (evt)=>{
   evt.preventDefault();
   const isValid = pristine.validate();
   if(isValid){
-    showSuccessMessage();
-    cleanForm();
-    closeModal();
+    const formData = new FormData(evt.target);
+    blockBtn();
+    sendData(
+      () => {
+        showSuccessMessage();
+        cleanForm();
+        resetSlider();
+        closeModal();
+        unblockBtn();
+      },
+      () => {
+        showErrorMessage();
+        unblockBtn();
+      },
+      formData
+    );
   } else {
-    showErrorMessage();
+    showAlert('Поля заполнены неверно');
   }
 });
 
-effectsList.addEventListener('click', addEffect);
+closeBtn.addEventListener('click', resetSlider);
+closeBtn.addEventListener('click', cleanForm);
 
-export {cleanForm, form, previewEl};
+export {cleanForm, form, successMessage, errMessage};
