@@ -1,6 +1,6 @@
 const BASE_URL = 'https://27.javascript.pages.academy/kekstagram-simple';
 
-const getData = function (onSuccess, onError){
+const getData = (onSuccess, onError) => {
   fetch(`${BASE_URL}/data`)
     .then((response) => {
       if(response.ok){
@@ -14,7 +14,7 @@ const getData = function (onSuccess, onError){
     .catch(() => onError('Произошла ошибка загрузки с сервера'));
 };
 
-const sendData = function (onSuccess, onError, body){
+const sendData = (onSuccess, onError, body) => {
   fetch(BASE_URL,
     {
       method: 'POST',

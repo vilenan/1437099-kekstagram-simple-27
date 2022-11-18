@@ -1,6 +1,6 @@
 const postsContainer = document.querySelector('.pictures');
 const postTemplate = document.querySelector('#picture').content.querySelector('.picture');
-const renderPost = function (item){
+const renderPost = (item) => {
   const post = postTemplate.cloneNode(true);
   const postImage = post.querySelector('.picture__img');
   postImage.src = item.url;
@@ -10,7 +10,7 @@ const renderPost = function (item){
   return post;
 };
 
-const renderPosts = function(posts){
+const renderPosts = (posts) => {
   const fragment = document.createDocumentFragment();
   posts.forEach((post) => {
     const newPost = renderPost(post);

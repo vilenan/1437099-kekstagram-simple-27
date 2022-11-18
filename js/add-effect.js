@@ -91,7 +91,7 @@ noUiSlider.create(slider, {
   connect: 'lower',
 });
 
-const updateSlider = function (effect){
+const updateSlider = (effect) => {
   slider.noUiSlider.updateOptions({
     range: {
       min: effect.range.min,
@@ -102,14 +102,14 @@ const updateSlider = function (effect){
   });
 };
 
-const onChangeEffectItem = function (evt){
+const onChangeEffectItem = (evt) => {
   currentEffect = EFFECTS[evt.target.value];
   preview.className = '';
   preview.classList.add(`effects__preview--${evt.target.value}`);
   updateSlider(currentEffect);
 };
 
-const resetSlider = function (){
+const resetSlider = () => {
   currentEffect = EFFECTS.none;
   sliderWrapper.style.display = 'none';
 };
@@ -126,7 +126,7 @@ slider.noUiSlider.on('update', () => {
   }
 });
 
-const onZoomOutBtnClick = function (){
+const onZoomOutBtnClick = () => {
   let scale = parseInt(scaleValue.value,10);
   if(scale > MIN_SCALE_VALUE) {
     scale -= SCALE_STEP;
@@ -135,7 +135,7 @@ const onZoomOutBtnClick = function (){
   }
 };
 
-const onZoomInBtnClick = function (){
+const onZoomInBtnClick = () => {
   let scale = parseInt(scaleValue.value,10);
   if(scale < MAX_SCALE_VALUE){
     scale += SCALE_STEP;
