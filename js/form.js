@@ -22,15 +22,17 @@ const pristine = new Pristine(form,{
   errorTextClass: 'text__error'
 });
 
-const blockBtn = function (){
-  submitBtn.setAttribute('disabled', true);
+const blockBtn = () => {
+  submitBtn.disabled = true;
+  submitBtn.textContent = 'Загружаю...';
 };
 
-const unblockBtn = function (){
-  submitBtn.removeAttribute('disabled');
+const unblockBtn = () => {
+  submitBtn.disabled = false;
+  submitBtn.textContent = 'Опубликовать';
 };
 
-const cleanForm = function(){
+const cleanForm = () => {
   preview.className = '';
   scaleValue.value = DEFAULT_SCALE_VALUE;
   preview.style.transform = `scale(${(scaleValue.value) / 100})`;
@@ -42,7 +44,7 @@ const cleanForm = function(){
   }
 };
 
-const hideMessage = function(){
+const hideMessage = () => {
   let message;
   if(document.body.contains(successMessage)){
     message = successMessage;
@@ -65,7 +67,7 @@ function onOverlayClick(event){
   }
 }
 
-const showSuccessMessage = function(){
+const showSuccessMessage = () => {
   document.body.append(successMessage);
   document.body.style.overflow = 'hidden';
   closeSuccessMessageBtn.addEventListener('click', hideMessage);
@@ -73,7 +75,7 @@ const showSuccessMessage = function(){
   document.addEventListener( 'click', onOverlayClick);
 };
 
-const showErrorMessage = function (){
+const showErrorMessage = () => {
   document.body.append(errMessage);
   document.body.style.overflow = 'hidden';
   closeErrMessageBtn.addEventListener('click', hideMessage);
