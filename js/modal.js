@@ -5,6 +5,7 @@ import {preview, resetSlider} from './add-effect.js';
 const uploadBtn = document.querySelector('#upload-file');
 const overlay = document.querySelector('.img-upload__overlay');
 const closeBtn = document.querySelector('#upload-cancel');
+const commentEditFormInput = document.querySelector('.text__description');
 
 uploadBtn.addEventListener('change',()=> {
   const localPhoto = uploadBtn.files[0];
@@ -14,7 +15,7 @@ uploadBtn.addEventListener('change',()=> {
 });
 
 const onEscKeydown = (evt) => {
-  if (isEscKey(evt) && (!document.body.contains(successMessage)) && (!document.body.contains(errMessage))){
+  if (isEscKey(evt) && (!document.body.contains(successMessage)) && (!document.body.contains(errMessage)) && (document.activeElement !== commentEditFormInput)){
     closeModal();
     cleanForm();
     resetSlider();

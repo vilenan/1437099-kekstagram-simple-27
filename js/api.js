@@ -1,4 +1,4 @@
-const BASE_URL = 'https://27.javascript.pages.academy/kekstagram-simple';
+const BASE_URL = 'https://27.javascript.pages.academy/kekstagram';
 
 const getData = (onSuccess, onError) => {
   fetch(`${BASE_URL}/data`)
