@@ -1,5 +1,13 @@
 const ALERT_SHOW_TIME = 5000;
 
+function shuffle(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+}
+
 const isEscKey = (evt) => evt.key === 'Escape';
 
 const showAlert = function (message){
@@ -21,4 +29,4 @@ const showAlert = function (message){
   }, ALERT_SHOW_TIME);
 };
 
-export {isEscKey, showAlert};
+export {isEscKey, showAlert, shuffle};
