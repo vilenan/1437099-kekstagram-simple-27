@@ -1,19 +1,23 @@
-import {onClickPost} from './render-big-photo-popup.js';
+import {onPostClick} from './render-big-photo-popup.js';
 import {shuffle} from './utils.js';
 
 const RANDOM_POSTS_TO_SHOW = 10;
 const postsContainer = document.querySelector('.pictures');
 const postTemplate = document.querySelector('#picture').content.querySelector('.picture');
 const filtersContainer = document.querySelector('.img-filters__form');
+const filters = document.querySelector('.img-filters');
+const randomFilter = filters.querySelector('#filter-random');
+const initialFilter = filters.querySelector('#filter-default');
+const discussedFilter = filters.querySelector('#filter-discussed');
 
-const onFilterBtnClick = () => {
-  filtersContainer.addEventListener('click', (evt)=>{
-    const activeBtn = document.querySelector('.img-filters__button--active');
-    if(activeBtn){
-      activeBtn.classList.remove('img-filters__button--active');
+const onFilterClick = () => {
+  filtersContainer.addEventListener('click', (evt) => {
+    const activeFilter = document.querySelector('.img-filters__button--active');
+    if(activeFilter){
+      activeFilter.classList.remove('img-filters__button--active');
     }
-    const filterBtn = evt.target.closest('.img-filters__button');
-    filterBtn.classList.add('img-filters__button--active');
+    const filter = evt.target.closest('.img-filters__button');
+    filter.classList.add('img-filters__button--active');
   });
 };
 
@@ -27,11 +31,6 @@ const renderPost = ({ url, description, likes, comments }) => {
   return post;
 };
 
-const filters = document.querySelector('.img-filters');
-const random = filters.querySelector('#filter-random');
-const initial = filters.querySelector('#filter-default');
-const discussed = filters.querySelector('#filter-discussed');
-
 const makeRandomArr = (array) => {
   let randomArr = [];
   const randomCount = Math.min(array.length, RANDOM_POSTS_TO_SHOW);
@@ -44,24 +43,24 @@ const makeInitialArr = (array) => array;
 
 const makeDiscussedArray = (array) => array.slice().sort((prevEl, nextEl) => nextEl.comments.length - prevEl.comments.length);
 
-const onRandomFilter = (cb) => {
-  random.addEventListener('click',() => {
+const onRandomFilterClick = (cb) => {
+  randomFilter.addEventListener('click',() => {
     postsContainer.textContent = '';
     const randomArr = cb();
     renderPosts(randomArr);
   });
 };
 
-const onDefaultFilter = (cb) => {
-  initial.addEventListener('click',() => {
+const onDefaultFilterClick = (cb) => {
+  initialFilter.addEventListener('click',() => {
     postsContainer.textContent = '';
     const defaultArr = cb();
     renderPosts(defaultArr);
   });
 };
 
-const onDiscussedFilter = (cb) => {
-  discussed.addEventListener('click',() => {
+const onDiscussedFilterClick = (cb) => {
+  discussedFilter.addEventListener('click',() => {
     postsContainer.textContent = '';
     const discussedArr = cb();
     renderPosts(discussedArr);
@@ -72,7 +71,7 @@ function renderPosts(posts){
   const fragment = document.createDocumentFragment();
   posts.forEach((post) => {
     const newPost = renderPost(post);
-    newPost.addEventListener('click', () => onClickPost(post));
+    newPost.addEventListener('click', () => onPostClick(post));
     fragment.append(newPost);
   });
   postsContainer.append(fragment);
@@ -81,23 +80,10 @@ function renderPosts(posts){
 
 const init = (posts) =>{
   renderPosts(posts);
-  onFilterBtnClick();
-  onRandomFilter(() => makeRandomArr(posts));
-  onDefaultFilter(() => makeInitialArr(posts));
-  onDiscussedFilter(() => makeDiscussedArray(posts));
+  onFilterClick();
+  onRandomFilterClick(() => makeRandomArr(posts));
+  onDefaultFilterClick(() => makeInitialArr(posts));
+  onDiscussedFilterClick(() => makeDiscussedArray(posts));
 };
 
 export {init};
-//генерация id
-// const generateId = function(){
-//   let id = 0;
-//   function addId(){
-//     id++;
-//     return id;
-//   }
-//   return addId;
-// };
-// const getId = generateId();
-//
-// const createPhoto = function(){
-//   const id = getId();
