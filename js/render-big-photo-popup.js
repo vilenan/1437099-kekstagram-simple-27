@@ -82,9 +82,9 @@ function renderMore() {
   }
 }
 
-const onClickPost = (post) => {
+const onPostClick = (post) => {
   openBigPictureModal();
   renderBigPost(post);
   document.addEventListener('keydown', onEscKey);
 };
-export {onClickPost};
+export {onPostClick};

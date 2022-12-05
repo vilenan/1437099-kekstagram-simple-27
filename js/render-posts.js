@@ -1,7 +1,8 @@
-import {onClickPost} from './render-big-photo-popup.js';
+import {onPostClick} from './render-big-photo-popup.js';
+
+const filters = document.querySelector('.img-filters');
 const postsContainer = document.querySelector('.pictures');
 const postTemplate = document.querySelector('#picture').content.querySelector('.picture');
-
 const renderPost = ({ url, description, likes, comments }) => {
   const post = postTemplate.cloneNode(true);
   const postImage = post.querySelector('.picture__img');
@@ -16,23 +17,11 @@ const renderPosts = (posts) => {
   const fragment = document.createDocumentFragment();
   posts.forEach((post) => {
     const newPost = renderPost(post);
-    newPost.addEventListener('click', () => onClickPost(post));
+    newPost.addEventListener('click', () => onPostClick(post));
     fragment.append(newPost);
   });
   postsContainer.append(fragment);
+  filters.classList.remove('img-filters--inactive');
 };
 
-export {renderPosts};
-//генерация id
-// const generateId = function(){
-//   let id = 0;
-//   function addId(){
-//     id++;
-//     return id;
-//   }
-//   return addId;
-// };
-// const getId = generateId();
-//
-// const createPhoto = function(){
-//   const id = getId();
+export {renderPosts, postsContainer};
