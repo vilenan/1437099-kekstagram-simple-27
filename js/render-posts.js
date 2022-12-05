@@ -10,7 +10,7 @@ const randomFilter = filters.querySelector('#filter-random');
 const initialFilter = filters.querySelector('#filter-default');
 const discussedFilter = filters.querySelector('#filter-discussed');
 
-const onFilterClick = () => {
+const setFilterClick = () => {
   filtersContainer.addEventListener('click', (evt) => {
     const activeFilter = document.querySelector('.img-filters__button--active');
     if(activeFilter){
@@ -43,7 +43,7 @@ const makeInitialArr = (array) => array;
 
 const makeDiscussedArray = (array) => array.slice().sort((prevEl, nextEl) => nextEl.comments.length - prevEl.comments.length);
 
-const onRandomFilterClick = (cb) => {
+const setRandomFilterClick = (cb) => {
   randomFilter.addEventListener('click',() => {
     postsContainer.textContent = '';
     const randomArr = cb();
@@ -51,7 +51,7 @@ const onRandomFilterClick = (cb) => {
   });
 };
 
-const onDefaultFilterClick = (cb) => {
+const setDefaultFilterClick = (cb) => {
   initialFilter.addEventListener('click',() => {
     postsContainer.textContent = '';
     const defaultArr = cb();
@@ -59,7 +59,7 @@ const onDefaultFilterClick = (cb) => {
   });
 };
 
-const onDiscussedFilterClick = (cb) => {
+const setDiscussedFilterClick = (cb) => {
   discussedFilter.addEventListener('click',() => {
     postsContainer.textContent = '';
     const discussedArr = cb();
@@ -80,10 +80,10 @@ function renderPosts(posts){
 
 const init = (posts) =>{
   renderPosts(posts);
-  onFilterClick();
-  onRandomFilterClick(() => makeRandomArr(posts));
-  onDefaultFilterClick(() => makeInitialArr(posts));
-  onDiscussedFilterClick(() => makeDiscussedArray(posts));
+  setFilterClick();
+  setRandomFilterClick(() => makeRandomArr(posts));
+  setDefaultFilterClick(() => makeInitialArr(posts));
+  setDiscussedFilterClick(() => makeDiscussedArray(posts));
 };
 
 export {init};
